@@ -10,6 +10,7 @@ export default function Community() {
   const {
     register,
     handleSubmit,
+    setValue,
   } = useForm();
 
   const isLogined = localStorage.getItem('isLogined');
@@ -31,6 +32,8 @@ export default function Community() {
     .then(response => {
       if (response.header.code === 200){
         fetchData();
+        setValue("title", "");
+        setValue("content", "");
       }
     });
   }
