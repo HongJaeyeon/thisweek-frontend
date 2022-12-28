@@ -2,95 +2,38 @@ import '../App.css';
 import Navbar from '../components/Navbar';
 import { useEffect } from 'react';
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
 
 export default function Home() {
-  const categories = [
-    "musical",
-    "concert",
-    "acting",
-    "classic",
-    "sport",
-    "leisure",
-    "exhibition",
-]
-  const [category, setCategory] = useState("musical");
-  const [renderingData, setRenderingData] = useState([]);
 
-  const data = [
-    {
-      img: "img.png",
-      title: "뮤지컬 '영웅'",
-      date: "12.21 ~ 02.28",
-      category: "musical",
-    },
-    {
-      img: "img.png",
-      title: "뮤지컬 '영웅'",
-      date: "12.21 ~ 02.28",
-      category: "musical",
-    },
-    {
-      img: "img.png",
-      title: "뮤지컬 '영웅'",
-      date: "12.21 ~ 02.28",
-      category: "musical",
-    },
-    {
-      img: "img.png",
-      title: "뮤지컬 '영웅'",
-      date: "12.21 ~ 02.28",
-      category: "musical",
-    },
-    {
-      img: "img.png",
-      title: "뮤지컬 '영웅'",
-      date: "12.21 ~ 02.28",
-      category: "musical",
-    },
-    {
-      img: "img.png",
-      title: "뮤지컬 '영웅'",
-      date: "12.21 ~ 02.28",
-      category: "musical",
-    },
-    {
-      img: "img.png",
-      title: "뮤지컬 '영웅'",
-      date: "12.21 ~ 02.28",
-      category: "musical",
-    },
-    {
-      img: "img.png",
-      title: "뮤지컬 '영웅'",
-      date: "12.21 ~ 02.28",
-      category: "musical",
-    },
-    {
-      img: "img.png",
-      title: "뮤지컬 '영웅'",
-      date: "12.21 ~ 02.28",
-      category: "musical",
-    },
-    {
-      img: "img.png",
-      title: "뮤지컬 '영웅'",
-      date: "12.21 ~ 02.28",
-      category: "musical",
-    },
-    {
-      img: "img.png",
-      title: "데이터2 sport",
-      date: "12.21 ~ 02.28",
-      category: "sport",
-    },
-  ]
+  const [data, setData] = useState();
+
+  const fetchData = () => {
+    fetch('http://52.79.246.204:4041/api/v1/data', {
+      method: 'GET',
+    }).then(res => res.json())
+    .then(res => {
+      setData(res.body.result);
+    });
+  };
+
+  const categories = [
+    ["Musical", "뮤지컬"],
+    ["Concert", "콘서트"],
+    ["Acting", "연극"],
+    ["Classic", "클래식/무용"],
+    ["Sport", "스포츠"],
+    ["Leisure", "레저"],
+    ["Exhibition", "전시/행사"],
+]
+
+  const [category, setCategory] = useState("뮤지컬");
+  const [renderingData, setRenderingData] = useState();
 
   const categoryFilter = () => {
-    const filteringData = data.filter( data => data.category === category)
+    const filteringData = data?.filter( data => data.genre === category)
     setRenderingData(filteringData);
   }
-
+  useEffect(() => fetchData(), []);
   useEffect(() => categoryFilter(), [category]);
 
   return (
@@ -98,10 +41,9 @@ export default function Home() {
       <Navbar/>
       <div className="pt-12 bg-pink-200">
         <div className="text-center text-orange-500 text-9xl font-bold mb-10">This Week</div>
-        <div className="mt-10 text-center">{categories.map( (c, idx) => (<button className="text-1xl ml-6 font-bold text-blue-400 pressed:text-green-400 hover:text-green-400" key={idx} onClick={()=>{setCategory(c); console.log(c)}}>{c}</button>))}</div>
-        <div className="bg-red-100 content mt-12 grid gap-4 grid-cols-5 grid-rows-2">
-        {/* <img src={require("../public/zzz.png")}></img> */}
-          {renderingData.map((data, idx) => (<div className="bg-blue-100 text-center"><div className='m-auto h-80 w-64 bg-gray-100'></div><div key={idx}>{data.title}<div>{data.date}</div></div></div>))}
+        <div className="mt-10 text-center">{categories.map( (c, idx) => (<button className="text-2xl ml-6 font-bold text-blue-400 pressed:text-green-400 hover:text-green-400 mb-10" key={idx} onClick={()=>{setCategory(c[1])}}>{c[0]}</button>))}</div>
+        <div className="content mt-12 grid gap-8 grid-cols-5 grid-rows-2">
+          {renderingData?.map((data, idx) => (<div className="text-center"> <img className='m-auto h-80 w-64 rounded-lg text-center m-auto' src={`${data.picture}`}></img><div className="p-5 text-xl font-bold w-64 text-center m-auto">{data.title}</div><div>{data.period}</div></div>))}
         </div>
         <footer className="h-96"></footer>
       </div>

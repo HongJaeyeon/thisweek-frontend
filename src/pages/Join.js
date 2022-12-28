@@ -14,7 +14,7 @@ export default function Join() {
   } = useForm();
 
   const onSubmit = (data) => {
-    fetch(`${process.env.REACT_APP_BASE_URL}/api/v1/member/signup`, {
+    fetch("http://52.79.246.204:4041/api/v1/member/signup", {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({

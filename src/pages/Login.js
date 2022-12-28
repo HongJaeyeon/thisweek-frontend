@@ -14,7 +14,6 @@ export default function Login() {
   } = useForm();
 
   const onSubmit = (data) => {
-    console.log(data);
     localStorage.setItem("isLogined", true);
     return navigate("/community");
   }
@@ -27,7 +26,7 @@ export default function Login() {
         <input {...register('email', { require: true} )} placeholder='Email' className='rounded-lg w-80 p-5 mb-5 block bg-yellow-100 m-auto'></input>
         <input {...register('password', { require: true} )} placeholder='PassWord' className='rounded-lg w-80 p-5 mb-5 block bg-yellow-100 m-auto'></input>
         <button className='rounded-lg w-80 p-5 block bg-red-200 m-auto hover:bg-red-300 tracking-widest font-bold text-xl text-blue-400'>L O G I N</button>
-        <Link to="/join" className='mt-5 rounded-lg block ml-72 tracking-widest text-xl hover:font-bold text-red-400'>Go To Join →</Link>
+        <Link to="/join" className='w-max p-5 m-auto block tracking-widest text-xl hover:font-bold text-red-400'>Go To Join →</Link>
       </form>
       <footer className="h-96"></footer>
     </div>
